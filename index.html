@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pagina de Programas - Universidad</title>
+<!-- Iconos de Font Awesome para los íconos en enlaces -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f1f3f4;
+    color: #202124;
+    position: relative;
+  }
+
+  /* Menú de 9 puntos en esquina superior derecha */
+  .top-right-menu {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    z-index: 1000;
+  }
+  .dots {
+    display: grid;
+    grid-template-rows: repeat(3, 8px);
+    grid-template-columns: repeat(3, 8px);
+    gap: 4px;
+    width: 100%;
+    height: 100%;
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    background-color: #202124;
+    border-radius: 50%;
+  }
+
+  /* Ventana desplegable de enlaces (menú emergente) */
+  .menu-dropdown {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 250px;
+    max-height: 400px;
+    overflow-y: auto;
+    background-color: #fff;
+    border: 1px solid #dadce0;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    display: none; /* Oculto por defecto */
+    z-index: 1001;
+  }
+  .menu-dropdown ul {
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+  }
+  .menu-dropdown li {
+    display: flex;
+    align-items: center;
+    padding: 8px 10px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+  }
+  .menu-dropdown li:hover {
+    background-color: #f1f3f4;
+  }
+  .menu-dropdown li i {
+    margin-right: 10px;
+    font-size: 20px;
+    color: #5f6368;
+  }
+
+  /* Buscador y dropdown de motor de búsqueda */
+  .search-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  select, input[type="text"] {
+    padding: 10px 14px;
+    font-size: 16px;
+    border: 1px solid #dadce0;
+    border-radius: 24px;
+    outline: none;
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+  select:focus, input[type="text"]:focus {
+    border-color: #4285f4;
+    box-shadow: 0 0 4px rgba(66, 133, 244, 0.4);
+  }
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 24px;
+    background-color: #4285f4;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: background-color 0.3s, box-shadow 0.2s;
+  }
+  button:hover {
+    background-color: #357ae8;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  }
+
+  /* Dropdown de programas */
+  .programa-container {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+  }
+  label {
+    margin-right: 10px;
+    font-weight: 600;
+    font-size: 16px;
+    align-self: center;
+  }
+  select {
+    padding: 10px 14px;
+    font-size: 16px;
+    border: 1px solid #dadce0;
+    border-radius: 24px;
+    outline: none;
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+  select:focus {
+    border-color: #4285f4;
+    box-shadow: 0 0 4px rgba(66, 133, 244, 0.4);
+  }
+
+  /* Menú de 9 puntos */
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto 40px auto;
+  }
+
+  .menu-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    text-decoration: none;
+    color: #202124;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .menu-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+
+  .menu-item i {
+    font-size: 50px;
+    margin-bottom: 12px;
+    color: #4285f4;
+    transition: color 0.2s;
+  }
+
+  .menu-item:hover i {
+    color: #0b66c2;
+  }
+
+  .menu-item span {
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  /* Tema general */
+  h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 24px;
+    font-weight: 600;
+    color: #202124;
+  }
+
+  /* App menu estilo similar a Google */
+  .apps-menu {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+
+  .app-icon {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  }
+
+  .app-icon:hover {
+    background-color: #f1f3f4;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  }
+
+  .app-icon i {
+    font-size: 32px;
+    color: #5f6368;
+  }
+
+  /* Estilos responsivos */
+  @media(max-width: 768px){
+    .search-container {
+      flex-direction: column;
+      align-items: center;
+    }
+    select, input[type="text"] {
+      width: 80%;
+    }
+  }
+
+  /* Estilos para la búsqueda ampliada y botón flotante */
+  /* botón flotante para activar la búsqueda avanzada simil a Google */
+  .search-float-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #4285f4;
+    color: #fff;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    z-index: 1002;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  .search-float-btn:hover {
+    background-color: #357ae8;
+    transform: scale(1.05);
+  }
+
+  /* Modal de búsqueda ampliada */
+  .search-modal {
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+  }
+  .search-modal.show {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Contenedor del cuadro expandido */
+  .search-box {
+    background: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    transition: transform 0.3s ease;
+  }
+  .search-box input[type="text"] {
+    flex: 1;
+    font-size: 18px;
+    padding: 12px 20px;
+    border-radius: 24px;
+    border: 1px solid #dadce0;
+    outline: none;
+    margin-right: 10px;
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+  .search-box input[type="text"]:focus {
+    border-color: #4285f4;
+    box-shadow: 0 0 4px rgba(66,133,244,0.4);
+  }
+  .search-box button {
+    padding: 12px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 24px;
+    background-color: #4285f4;
+    color:#fff;
+    cursor:pointer;
+    transition: background-color 0.3s;
+  }
+  .search-box button:hover {
+    background-color:#357ae8;
+  }
+
+  /* Animacion para el zoom del cuadro de búsqueda */
+  @keyframes zoomIn {
+    0% { transform: scale(0.8); opacity:0; }
+    100% { transform: scale(1); opacity:1; }
+  }
+  @keyframes zoomOut {
+    0% { transform: scale(1); opacity:1; }
+    100% { transform: scale(0.8); opacity:0; }
+  }
+  .search-box.animate-zoom {
+    animation: zoomIn 0.3s forwards;
+  }
+</style>
+</head>
+<body>
+
+<!-- Menú de 9 puntos - superior derecho -->
+<div class="top-right-menu" id="menuPuntos" style="position: fixed; top: 16px; right: 16px;">
+  <div class="dots" id="dots" aria-haspopup="true" aria-controls="menuDropdown" aria-expanded="false" role="button" tabindex="0" style="outline:none;">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+  <!-- Ventana desplegable -->
+  <div class="menu-dropdown" id="menuDropdown" role="list" aria-hidden="true">
+    <ul id="enlacesGoogle">
+      <!-- Se generarán enlaces aquí desde JS -->
+    </ul>
+  </div>
+</div>
+
+<!-- App menu estilo similar a Google -->
+<div class="apps-menu" id="appsMenu">
+  <!-- Los íconos de aplicaciones se generarán dinámicamente con JavaScript -->
+</div>
+
+<!-- Buscador y motor de búsqueda -->
+<div class="search-container">
+  <select id="searchEngine">
+    <option value="https://www.google.com/search?q=">Google</option>
+    <option value="https://duckduckgo.com/?q=">DuckDuckGo</option>
+    <option value="https://search.brave.com/search?q=">Brave Search</option>
+    <option value="https://www.bing.com/search?q=">Bing</option>
+  </select>
+  <input type="text" id="searchInput" placeholder="Buscar en..." />
+  <button onclick="buscar()">Buscar</button>
+</div>
+
+<!-- Selector de Programa de Estudios -->
+<div class="programa-container">
+  <label for="programaSelect">Selecciona tu Programa de Estudios:</label>
+  <select id="programaSelect">
+    <option value="ingenieria">Ingeniería</option>
+    <option value="medicina">Medicina</option>
+    <option value="sistemas">Sistemas Computacionales</option>
+    <option value="derecho">Derecho</option>
+    <option value="administracion">Administración</option>
+  </select>
+</div>
+
+<h2>Enlaces útiles</h2>
+<!-- Menú de 9 enlaces con iconos -->
+<div class="menu-grid" id="menu">
+  <!-- Los enlaces se generarán dinámicamente con JavaScript -->
+</div>
+
+<!-- Botón flotante para búsqueda avanzada estilo Google -->
+<div class="search-float-btn" id="searchBtn" title="Buscar en Google">
+  <i class="fas fa-search"></i>
+</div>
+
+<!-- Modal de búsqueda ampliada -->
+<div class="search-modal" id="searchModal">
+  <div class="search-box" id="searchBox">
+    <input type="text" id="searchInputModal" placeholder="Buscar en Google..." />
+    <button onclick="buscar()">Buscar</button>
+  </div>
+</div>
+
+<script>
+  // Datos de los programas y sus enlaces
+  const programas = {
+    ingenieria: [
+      { name: "Sitio de Ingeniería", url: "https://universidad.edu/ingenieria", icon: "fa-tools" },
+      { name: "Laboratorio de Ingeniería", url: "https://laboratorios.universidad.edu/ingenieria", icon: "fa-flask" },
+      { name: "Programas de Ingeniería", url: "https://universidad.edu/programas/ingenieria", icon: "fa-cogs" },
+      { name: "Eventos Ingeniería", url: "https://universidad.edu/eventos/ingenieria", icon: "fa-calendar" },
+      { name: "Noticias Ingeniería", url: "https://universidad.edu/noticias/ingenieria", icon: "fa-newspaper" },
+      { name: "Admisión Ingeniería", url: "https://universidad.edu/admisión/ingenieria", icon: "fa-user-plus" },
+      { name: "Biblioteca Ingeniería", url: "https://biblioteca.universidad.edu/ingenieria", icon: "fa-book" },
+      { name: "Alumni Ingeniería", url: "https://alumni.universidad.edu/ingenieria", icon: "fa-graduation-cap" },
+      { name: "Contactos", url: "https://universidad.edu/contactos", icon: "fa-envelope" },
+    ],
+    medicina: [
+      { name: "Sitio de Medicina", url: "https://universidad.edu/medicina", icon: "fa-stethoscope" },
+      { name: "Hospital Universitario", url: "https://hospital.universidad.edu/medicina", icon: "fa-hospital" },
+      { name: "Programas de Medicina", url: "https://universidad.edu/programas/medicina", icon: "fa-user-md" },
+      { name: "Eventos Medicina", url: "https://universidad.edu/eventos/medicina", icon: "fa-calendar" },
+      { name: "Noticias Medicina", url: "https://universidad.edu/noticias/medicina", icon: "fa-newspaper" },
+      { name: "Admisión Medicina", url: "https://universidad.edu/admisión/medicina", icon: "fa-user-plus" },
+      { name: "Biblioteca Medicina", url: "https://biblioteca.universidad.edu/medicina", icon: "fa-book" },
+      { name: "Alumni Medicina", url: "https://alumni.universidad.edu/medicina", icon: "fa-graduation-cap" },
+      { name: "Contactos", url: "https://universidad.edu/contactos", icon: "fa-envelope" },
+    ],
+    sistemas: [
+      { name: "Sitio de Sistemas", url: "https://universidad.edu/sistemas", icon: "fa-laptop-code" },
+      { name: "Laboratorio de Sistemas", url: "https://laboratorios.universidad.edu/sistemas", icon: "fa-terminal" },
+      { name: "Programas de Sistemas", url: "https://universidad.edu/programas/sistemas", icon: "fa-code" },
+      { name: "Eventos Sistemas", url: "https://universidad.edu/eventos/sistemas", icon: "fa-calendar" },
+      { name: "Noticias Sistemas", url: "https://universidad.edu/noticias/sistemas", icon: "fa-newspaper" },
+      { name: "Admisión Sistemas", url: "https://universidad.edu/admisión/sistemas", icon: "fa-user-plus" },
+      { name: "Biblioteca Sistemas", url: "https://biblioteca.universidad.edu/sistemas", icon: "fa-book" },
+      { name: "Alumni Sistemas", url: "https://alumni.universidad.edu/sistemas", icon: "fa-graduation-cap" },
+      { name: "Contactos", url: "https://universidad.edu/contactos", icon: "fa-envelope" },
+    ],
+    derecho: [
+      { name: "Sitio de Derecho", url: "https://universidad.edu/derecho", icon: "fa-gavel" },
+      { name: "Biblioteca Derecho", url: "https://biblioteca.universidad.edu/derecho", icon: "fa-book-open" },
+      { name: "Programas de Derecho", url: "https://universidad.edu/programas/derecho", icon: "fa-balance-scale" },
+      { name: "Eventos Derecho", url: "https://universidad.edu/eventos/derecho", icon: "fa-calendar" },
+      { name: "Noticias Derecho", url: "https://universidad.edu/noticias/derecho", icon: "fa-newspaper" },
+      { name: "Admisión Derecho", url: "https://universidad.edu/admisión/derecho", icon: "fa-user-plus" },
+      { name: "Clínicas de Derecho", url: "https://clincas.universidad.edu/derecho", icon: "fa-handshake" },
+      { name: "Alumni Derecho", url: "https://alumni.universidad.edu/derecho", icon: "fa-graduation-cap" },
+      { name: "Contactos", url: "https://universidad.edu/contactos", icon: "fa-envelope" },
+    ],
+    administración: [
+      { name: "Sitio de Administración", url: "https://universidad.edu/administracion", icon: "fa-briefcase" },
+      { name: "Laboratorio de Administración", url: "https://laboratorios.universidad.edu/administracion", icon: "fa-building" },
+      { name: "Programas de Administración", url: "https://universidad.edu/programas/administracion", icon: "fa-chart-line" },
+      { name: "Eventos Administración", url: "https://universidad.edu/eventos/administracion", icon: "fa-calendar" },
+      { name: "Noticias Administración", url: "https://universidad.edu/noticias/administracion", icon: "fa-newspaper" },
+      { name: "Admisión Administración", url: "https://universidad.edu/admisión/administracion", icon: "fa-user-plus" },
+      { name: "Biblioteca Administración", url: "https://biblioteca.universidad.edu/administracion", icon: "fa-book" },
+      { name: "Alumni Administración", url: "https://alumni.universidad.edu/administracion", icon: "fa-graduation-cap" },
+      { name: "Contactos", url: "https://universidad.edu/contactos", icon: "fa-envelope" },
+    ],
+  };
+
+  // Datos de las apps estilo Google
+  const apps = [
+    { name: "Gmail", icon: "fa-envelope", url: "https://mail.google.com/" },
+    { name: "YouTube", icon: "fa-youtube", url: "https://www.youtube.com/" },
+    { name: "Drive", icon: "fa-google-drive", url: "https://drive.google.com/" },
+    { name: "Docs", icon: "fa-file-lines", url: "https://docs.google.com/" },
+    { name: "Sheets", icon: "fa-table", url: "https://sheets.google.com/" },
+    { name: "Slides", icon: "fa-slideshare", url: "https://slides.google.com/" },
+    { name: "Calendar", icon: "fa-calendar-alt", url: "https://calendar.google.com/" },
+  ];
+
+  // Programación en localStorage
+  const localStorageKey = "programaSeleccionado";
+
+  function cargarPrograma() {
+    const seleccionado = localStorage.getItem(localStorageKey);
+    if (seleccionado && programas[seleccionado]) {
+      document.getElementById("programaSelect").value = seleccionado;
+    }
+  }
+
+  function guardarPrograma() {
+    const valor = document.getElementById("programaSelect").value;
+    localStorage.setItem(localStorageKey, valor);
+    mostrarEnlaces(valor);
+  }
+
+  function mostrarEnlaces(programa) {
+    const enlaces = programas[programa] || [];
+    const contenedor = document.getElementById("menu");
+    contenedor.innerHTML = '';
+
+    enlaces.forEach(enlace => {
+      const a = document.createElement('a');
+      a.href = enlace.url;
+      a.target = "_blank";
+      a.className = "menu-item";
+
+      a.innerHTML = `<i class="fas ${enlace.icon}"></i>
+                     <span>${enlace.name}</span>`;
+      contenedor.appendChild(a);
+    });
+  }
+
+  function mostrarApps() {
+    const contenedorApps = document.getElementById("appsMenu");
+    contenedorApps.innerHTML = ""; // limpiar antes de agregar
+    apps.forEach(app => {
+      const div = document.createElement('div');
+      div.className = 'app-icon';
+      div.title = app.name;
+      div.innerHTML = `<a href="${app.url}" target="_blank" style="text-decoration:none; color:inherit;">
+                        <i class="fab ${app.icon}"></i>
+                      </a>`;
+      contenedorApps.appendChild(div);
+    });
+  }
+
+  document.getElementById("programaSelect").addEventListener("change", guardarPrograma);
+
+  // Datos de enlaces para la ventana popup similar a Google
+  const enlacesGoogle = [
+    { name: "Página web de la universidad", icon: "fa-university", url: "https://universidad.edu" },
+    { name: "Gmail", icon: "fa-envelope", url: "https://mail.google.com/" },
+    { name: "YouTube", icon: "fa-youtube", url: "https://www.youtube.com/" },
+    { name: "G Docs", icon: "fa-file-lines", url: "https://docs.google.com/" },
+    { name: "G Slides", icon: "fa-slideshare", url: "https://slides.google.com/" },
+    { name: "G Sheets", icon: "fa-table", url: "https://sheets.google.com/" },
+    { name: "G Drive", icon: "fa-google-drive", url: "https://drive.google.com/" },
+  ];
+
+  // Función para mostrar u ocultar el dropdown
+  function toggleMenu() {
+    const isVisible = window.getComputedStyle(menuDropdown).display === 'block';
+    if (isVisible) {
+      menuDropdown.style.display = 'none';
+      menuPuntos.setAttribute('aria-expanded', 'false');
+      menuDropdown.setAttribute('aria-hidden', 'true');
+    } else {
+      menuDropdown.style.display = 'block';
+      menuPuntos.setAttribute('aria-expanded', 'true');
+      menuDropdown.setAttribute('aria-hidden', 'false');
+    }
+  }
+
+  // Función para cerrar el menú al hacer clic fuera
+  function closeMenu() {
+    if (window.getComputedStyle(menuDropdown).display === 'block') {
+      menuDropdown.style.display = 'none';
+      menuPuntos.setAttribute('aria-expanded', 'false');
+      menuDropdown.setAttribute('aria-hidden', 'true');
+    }
+  }
+
+  // Evento para abrir/cerrar el menú
+  document.getElementById('dots').addEventListener('click', toggleMenu);
+  document.getElementById('dots').addEventListener('keydown', function(e){
+    if(e.key === 'Enter' || e.key === ' '){
+      e.preventDefault();
+      toggleMenu();
+    }
+  });
+
+  // Cerrar el menú si clic fuera
+  document.addEventListener('click', function(e){
+    if (!document.getElementById('menuPuntos').contains(e.target)) {
+      closeMenu();
+    }
+  });
+
+  // Crear ítems en la lista de enlaces
+  function cargarEnlacesGoogle() {
+    enlacesGoogleUl.innerHTML = "";
+    enlacesGoogle.forEach(enlace => {
+      const li = document.createElement('li');
+      li.innerHTML = `<i class="fas ${enlace.icon}"></i> ${enlace.name}`;
+      li.onclick = () => {
+        window.open(enlace.url, '_blank');
+        closeMenu();
+      };
+      enlacesGoogleUl.appendChild(li);
+    });
+  }
+
+  // Hook para acceder al ul
+  const enlacesGoogleUl = document.createElement('ul');
+
+  // ==== FUNCIONES NUEVAS PARA EL BUSCADOR Google SIMIL ==== //
+  // Mostrar el modal
+  const searchBtn = document.getElementById('searchBtn');
+  const searchModal = document.getElementById('searchModal');
+  const searchBox = document.getElementById('searchBox');
+  const searchInputModal = document.getElementById('searchInputModal');
+
+  // Función para abrir el modal con animate zoom
+  function abrirBusqueda() {
+    searchModal.classList.add('show');
+    searchModal.style.display = 'flex';
+    // Añadir animación de zoom
+    searchBox.classList.remove('animate-zoom');
+    // Forzar reflow para que la animación se aplique
+    void searchBox.offsetWidth;
+    searchBox.classList.add('animate-zoom');
+    // Colocar cursor en input
+    searchInputModal.focus();
+  }
+
+  // Función para cerrar el modal
+  function cerrarBusqueda() {
+    // Puedes agregar animación de salida si quieres
+    searchModal.classList.remove('show');
+    // Opcional: después de la transición esconder
+    setTimeout(() => {
+      searchModal.style.display = 'none';
+    }, 300);
+  }
+
+  // Al hacer clic en botón flotante
+  document.getElementById('searchBtn').addEventListener('click', abrirBusqueda);
+  // También cerrar al hacer clic fuera del cuadro
+  document.getElementById('searchModal').addEventListener('click', (e) => {
+    if (e.target === searchModal) {
+      cerrarBusqueda();
+    }
+  });
+  // Botón para cerrar si quieres agregar uno dentro de searchBox (opcional)
+  // pero no es obligatorio, el clic fuera cierra igualmente
+
+  // Función para realizar la búsqueda
+  function buscar() {
+    const query = document.getElementById('searchInputModal').value.trim();
+    if (!query) return;
+    // Obtenemos motor seleccionado
+    const engine = document.getElementById('searchEngine').value;
+    window.open(engine + encodeURIComponent(query), '_blank');
+    cerrarBusqueda();
+  }
+
+  // Opcional: presionar Enter en el input
+  document.getElementById('searchInputModal').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      buscar();
+    }
+  });
+
+  // También la opción en la barra superior
+  function buscar() {
+    const query = document.getElementById('searchInput').value.trim();
+    if (!query) return;
+    const engine = document.getElementById('searchEngine').value;
+    window.open(engine + encodeURIComponent(query), '_blank');
+  }
+
+  // En la página al cargar
+  window.onload = () => {
+    cargarPrograma();
+    const prog = document.getElementById("programaSelect").value;
+    mostrarEnlaces(prog);
+    mostrarApps();
+    cargarEnlacesGoogle();
+  }
+</script>
+
+</body>
+</html>
