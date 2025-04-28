@@ -1,9 +1,9 @@
 // Datos de las categorias y sus enlaces
 const categorias = {
   ingenieria: [
-    { name: "Ingeniería en Telecomunicaciones", url: "https://universidad.edu/telecomunicaciones", icon: "fa-satellite-dish" },
-    { name: "Laboratorio de Telecomunicaciones", url: "https://laboratorios.universidad.edu/telecomunicaciones", icon: "fa-network-wired" },
-    { name: "Plan de Estudios", url: "https://universidad.edu/programas/telecomunicaciones", icon: "fa-book" },
+    { name: "Ingeniería en Telecomunicaciones", url: "https://fips.unsa.edu.pe/telecomunicaciones/", icon: "fa-satellite-dish" },
+    { name: "Laboratorios de Telecomunicaciones", url: "https://fips.unsa.edu.pe/telecomunicaciones/laboratorios", icon: "fa-network-wired" },
+    { name: "Plan de Estudios", url: "https://fips.unsa.edu.pe/telecomunicaciones/plan-de-estudios", icon: "fa-book" },
     { name: "Eventos", url: "https://universidad.edu/eventos/telecomunicaciones", icon: "fa-calendar" },
     { name: "Noticias", url: "https://universidad.edu/noticias/telecomunicaciones", icon: "fa-newspaper" },
     { name: "Admisión", url: "https://universidad.edu/admisión/telecomunicaciones", icon: "fa-user-plus" },
@@ -71,11 +71,12 @@ const apps = [
 // Datos de enlaces para la ventana popup similar a Google
 const enlacesGoogle = [
   { name: "Universidad San Agustín", icon: "fas fa-university", url: "https://www.unsa.edu.pe" },
-  { name: "Portal Académico", icon: "fas fa-graduation-cap", url: "https://academico.unsa.edu.pe" },
+  { name: "Repositorio Institucional", icon: "fas fa-graduation-cap", url: "https://repositorio.unsa.edu.pe/" },
   { name: "Correo UNSA", icon: "fas fa-envelope", url: "http://mail.unsa.edu.pe/" },
   { name: "YouTube", icon: "fab fa-youtube", url: "https://www.youtube.com/" },
   { name: "Google Drive", icon: "fab fa-google-drive", url: "https://drive.google.com/" },
   { name: "Documentos de Google", icon: "fas fa-file-lines", url: "https://docs.google.com/" },
   { name: "Diapositivas de Google", icon: "fab fa-slideshare", url: "https://slides.google.com/" },
   { name: "Hojas de Cálculo de Google", icon: "fas fa-table", url: "https://sheets.google.com/" },
+  { name: "Contactos", url: "https://universidad.edu/contactos", icon: "fas fa-envelope" },
 ];
