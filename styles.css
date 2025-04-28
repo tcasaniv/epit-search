@@ -74,18 +74,17 @@ body {
   margin-right: 10px;
   font-size: 20px;
   color: #5f6368;
+  width: 20px;
+	text-align: center;
 }
 
 /* Buscador y dropdown de motor de búsqueda */
 .search-container {
   display: flex;
-  align-items: center;
   gap: 10px;
   margin-bottom: 30px;
   justify-content: center;
   flex-wrap: wrap;
-}
-.search-container {
   flex-direction: column;
   align-items: center;
 }
@@ -97,6 +96,11 @@ body {
 select > option {
   font-size: 1rem;
 	text-align: center;
+}
+
+#searchInput, #searchEngine {
+  width: 80%;
+  max-width: 600px;
 }
 
 select,
@@ -353,6 +357,10 @@ h2 {
 
 /* Estilos responsivos */
 @media (max-width: 768px) {
+  #searchEngine {
+    font-size: 1.5rem;
+    text-align: center;
+  }
   select,
   input[type="text"] {
     width: 80%;
@@ -364,6 +372,10 @@ h2 {
 }
 
 @media (max-width: 480px) {
+  #searchEngine {
+    font-size: 1rem;
+    text-align: center;
+  }
   .menu-grid {
     grid-template-columns: 1fr;
   }
