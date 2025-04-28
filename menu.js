@@ -31,7 +31,7 @@ function mostrarEnlaces(categoria) {
   
   // Manejar el cambio de categoria
   function handleCategoriaChange() {
-    const value = getElement("categoriaSelect").value;
+    const value = getElement("categoriasSelect").value;
     saveToStorage(STORAGE_KEY, value);
     mostrarEnlaces(value);
   }
