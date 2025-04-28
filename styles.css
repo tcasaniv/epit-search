@@ -86,7 +86,7 @@ body {
   justify-content: center;
 }
 
-.dots:hover > .dot {
+.top-right-menu:hover > .dots > .dot {
   background-color: var(--tertiary-color);
 }
 
@@ -126,6 +126,7 @@ body {
   cursor: pointer;
   border-radius: 6px;
   transition: background-color 0.2s;
+  color: var(--tertiary-text-color);
 }
 
 .menu-dropdown li:hover {
@@ -136,9 +137,13 @@ body {
 .menu-dropdown li i {
   margin-right: 10px;
   font-size: 20px;
-  color: var(--secondary-text-color);
+  color: var(--tertiary-text-color);
   width: 20px;
   text-align: center;
+}
+
+.menu-dropdown li:hover i {
+  color: var(--secondary-text-color)
 }
 
 /* Buscador y dropdown de motor de búsqueda */
