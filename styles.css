@@ -238,7 +238,7 @@ label {
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   text-decoration: none;
-  color: var(--primary-text-color);
+  color: var(--tertiary-text-color);
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
@@ -252,6 +252,11 @@ label {
   margin-bottom: 12px;
   color: var(--tertiary-text-color);
   transition: color 0.2s;
+}
+
+.menu-item:hover {
+  background-color: var(--tertiary-color-hover);
+  color: var(--tertiary-text-color-hover);
 }
 
 .menu-item:hover i {
